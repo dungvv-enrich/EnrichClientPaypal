@@ -1,17 +1,16 @@
 import { useEffect, useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import queryString from "query-string";
 import React from "react";
 import ReactDOM from "react-dom";
 import "./App.css";
 const PayPalButton = window.paypal.Buttons.driver("react", { React, ReactDOM });
 function App() {
-  const [isLoading, setIsLoading] = useState < bool > true;
-  const [amount, setAmount] = useState < string > null;
+  const [isLoading, setIsLoading] = useState(true);
+  const [amount, setAmount] = useState("");
 
   useEffect(() => {
     const parsedHash = queryString.parse(location.search);
+    console.log(parsedHash);
     setAmount(parsedHash.amount);
     setIsLoading(false);
   }, []);
