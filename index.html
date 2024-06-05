@@ -18,34 +18,27 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"></script>
 
 <script>
-  var URLClientAppAPI = "https://uat-api-clientapp.enrichcous.com:4443/";
-  const queryString = window.location.search;
-  const urlParams = new URLSearchParams(queryString);
-  RVCNo = urlParams.get("RVCNo");
-  sessionStorage.removeItem("RVCNo");
-  console.log("index.html");
-  $.ajax({
-    async: false,
-    url: URLClientAppAPI + `api/card/getsettingpaypal?RVCNo=${RVCNo}`,
-    type: "get",
-    contentType: "application/json", // Đặt Header Content-Type
-    dataType: "json",
-    success: (res) => {
-      if (res.status == 200) {
-        (function (d, s, id) {
-          var js,
-            fjs = d.getElementsByTagName(s)[0];
-          if (d.getElementById(id)) {
-            return;
-          }
-          js = d.createElement(s);
-          js.id = id;
-          js.src = `https://www.paypal.com/sdk/js?client-id=${res.message}&currency=USD`;
-          fjs.parentNode.insertBefore(js, fjs);
-          console.log("success");
-          sessionStorage.setItem("RVCNo", RVCNo);
-        })(document, "script", "paypal-clientid");
+  const queryString = window.location.search
+  const urlParams = new URLSearchParams(queryString)
+  Key = urlParams.get("Key")
+  let ssss = `https://www.paypal.com/sdk/js?client-id=${Key}&currency=USD`
+  if (Key) {
+    ;(function (d, s, id) {
+      var js,
+        fjs = d.getElementsByTagName(s)[0]
+      if (d.getElementById(id)) {
+        return
       }
-    },
-  });
+      js = d.createElement(s)
+      js.id = id
+      js.src = ssss
+      fjs.parentNode.insertBefore(js, fjs)
+      console.log("success")
+      // sessionStorage.setItem("RVCNo", RVCNo)
+    })(document, "script", "paypal-clientid")
+  }
+
+  // var URLClientAppAPI = "https://api-clientapp.enrichcous.com/"
+
+  // sessionStorage.removeItem("RVCNo")
 </script>

@@ -1,5 +1,9 @@
 {
   "projects": {
-    "default": "enrich-client"
-  }
+    "default": "fir-c9cec",
+    "dungvv": "fir-c9cec"
+  },
+  "targets": {},
+  "etags": {},
+  "dataconnectEmulatorConfig": {}
 }
