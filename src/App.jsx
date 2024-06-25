@@ -8,10 +8,10 @@ let PayPalButton = null
 function App() {
   const [isLoading, setIsLoading] = useState(true)
   const [amount, setAmount] = useState("")
+  console.log("1")
   useEffect(() => {
     console.log("useEffect")
     const parsedHash = queryString.parse(location.search)
-    console.log("parsedHash", parsedHash)
     setAmount(parsedHash.amount)
     let timer2 = setInterval(() => {
       if (!PayPalButton) {
@@ -20,6 +20,7 @@ function App() {
         clearInterval(timer2)
       }
     }, 1000)
+    return () => clearInterval(timer2)
   }, [])
 
   function updatePaypalButton() {
@@ -29,7 +30,6 @@ function App() {
         React,
         ReactDOM,
       })
-      console.log("PayPalButton", PayPalButton)
       setIsLoading(false)
     } catch (error) {
       console.log("error", error)
@@ -50,9 +50,11 @@ function App() {
 
   async function _onApprove(data, actions) {
     let order = await actions.order.capture()
-    console.log(order)
+    // console.log("order", order, data)
     window.ReactNativeWebView &&
       window.ReactNativeWebView.postMessage(JSON.stringify(order))
+    window.parent.postMessage(JSON.stringify(order), "*")
+    console.log("order", order)
     return order
   }
 
