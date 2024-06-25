@@ -20,7 +20,6 @@ function App() {
         clearInterval(timer2)
       }
     }, 1000)
-    return () => clearInterval(timer2)
   }, [])
 
   function updatePaypalButton() {
