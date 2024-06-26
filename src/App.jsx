@@ -17,7 +17,9 @@ function App() {
       if (!PayPalButton) {
         // if (sessionStorage.getItem("RVCNo") && !PayPalButton) {
         updatePaypalButton()
-        clearInterval(timer2)
+        if (PayPalButton) {
+          clearInterval(timer2)
+        }
       }
     }, 1000)
   }, [])
