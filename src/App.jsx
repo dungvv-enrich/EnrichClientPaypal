@@ -9,6 +9,9 @@ function App() {
   const [isLoading, setIsLoading] = useState(true)
   const [amount, setAmount] = useState("")
   console.log("1")
+  const clientId1 = queryString.parse(location.search).Key
+  console.log("clientId1", clientId1)
+
   useEffect(() => {
     console.log("useEffect")
     const parsedHash = queryString.parse(location.search)
@@ -26,6 +29,13 @@ function App() {
 
   function updatePaypalButton() {
     try {
+      const clientId = queryString.parse(location.search).Key
+      console.log("clientId", clientId)
+      if (!clientId || clientId.includes("sandbox")) {
+        console.error("Sandbox client-id detected. Only Product link allowed.")
+        return
+      }
+
       console.log("start to set PayPalButton")
       PayPalButton = window.paypal.Buttons.driver("react", {
         React,
@@ -38,6 +48,7 @@ function App() {
   }
 
   function _createOrder(data, actions) {
+    console.log("data", data, actions)
     return actions.order.create({
       purchase_units: [
         {
@@ -51,7 +62,8 @@ function App() {
 
   async function _onApprove(data, actions) {
     let order = await actions.order.capture()
-    // console.log("order", order, data)
+    console.log("order", order, data)
+
     window.ReactNativeWebView &&
       window.ReactNativeWebView.postMessage(JSON.stringify(order))
     window.parent.postMessage(JSON.stringify(order), "*")
